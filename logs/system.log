@@ -1,0 +1,16 @@
+2026-04-16 23:37:26 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): no trades or empty equity curve — returning zeros
+2026-04-16 23:37:26 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): 1 trades | win_rate=100.00% | pf=9999.00 | sharpe=0.00 | max_dd=0.00% | calmar=9999.00
+2026-04-16 23:37:26 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): 2 trades | win_rate=50.00% | pf=2.00 | sharpe=36.68 | max_dd=0.02% | calmar=20088.18
+2026-04-16 23:37:54 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): no trades or empty equity curve — returning zeros
+2026-04-16 23:37:54 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): 1 trades | win_rate=100.00% | pf=9999.00 | sharpe=0.00 | max_dd=0.00% | calmar=9999.00
+2026-04-16 23:37:54 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): 2 trades | win_rate=50.00% | pf=2.00 | sharpe=36.68 | max_dd=0.02% | calmar=20088.18
+2026-04-16 23:37:54 | INFO     | backtesting.performance_metrics | check_thresholds: 5 failure(s): ['win_rate=0.0000 < minimum 0.4', 'profit_factor=0.0000 < minimum 1.2', 'sharpe_ratio=0.0000 < minimum 0.5', 'total_trades=0.0000 < minimum 20', 'avg_r_multiple=0.0000 < minimum 0.1']
+2026-04-16 23:37:54 | INFO     | backtesting.performance_metrics | check_thresholds: all thresholds passed
+2026-04-16 23:37:54 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): 1 trades | win_rate=100.00% | pf=9999.00 | sharpe=0.00 | max_dd=0.00% | calmar=9999.00
+2026-04-16 23:37:54 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): 1 trades | win_rate=0.00% | pf=0.00 | sharpe=0.00 | max_dd=0.02% | calmar=-4555.14
+2026-04-16 23:37:54 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): 1 trades | win_rate=100.00% | pf=9999.00 | sharpe=0.00 | max_dd=0.00% | calmar=9999.00
+2026-04-16 23:37:54 | INFO     | backtesting.performance_metrics | PerformanceMetrics.compute(): 1 trades | win_rate=0.00% | pf=0.00 | sharpe=0.00 | max_dd=0.02% | calmar=-4555.14
+2026-04-16 23:41:08 | INFO     | backtesting.walk_forward | WalkForwardValidator initialised: regime_detector=False mlflow=False
+2026-04-16 23:41:16 | INFO     | backtesting.walk_forward | WalkForwardValidator initialised: regime_detector=False mlflow=False
+2026-04-16 23:41:16 | WARNING  | backtesting.walk_forward | [XAUUSD] Fold consistency FAILED: Fold 3 has 0 trades; Fold 2 Sharpe=0.10 deviates 93.5% from mean 1.55
+2026-04-16 23:41:22 | INFO     | backtesting.walk_forward | WalkForwardValidator initialised: regime_detector=False mlflow=False

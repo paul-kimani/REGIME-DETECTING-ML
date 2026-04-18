@@ -1,0 +1,8 @@
+# Install from the project root (one level up from this folder):
+#   pip install -r requirements_windows.txt
+#
+# The full requirements file is at:
+#   trading-system/requirements_windows.txt   (project root)
+#
+# This file is a placeholder — do not install from here.
+# See README_WINDOWS.md for the complete setup procedure.

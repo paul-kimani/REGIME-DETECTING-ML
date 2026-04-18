@@ -1,0 +1,83 @@
+momentum:
+  xgboost:
+    n_estimators: 500
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    min_child_weight: 5
+    scale_pos_weight: 1
+  lstm:
+    sequence_length: 30
+    units_1: 128
+    units_2: 64
+    dropout: 0.2
+    dense_units: 32
+    batch_size: 64
+    epochs: 100
+    patience: 15
+  ensemble:
+    xgb_weight: 0.55
+    lstm_weight: 0.45
+  entry:
+    min_signal_confidence: 0.65
+    min_directional_dominance: 2.0
+    label_forward_candles_M15: 6
+    label_forward_candles_H1: 3
+    label_atr_threshold: 1.5
+    limit_order_expiry_candles: 3
+    market_fallback_atr_threshold: 0.5
+
+mean_reversion:
+  zscore:
+    window: 50
+    long_threshold: -2.0
+    short_threshold: 2.0
+    hurst_strong_threshold: 0.40
+    hurst_strong_zscore_adjustment: -0.30
+  oscillators:
+    rsi_period: 7
+    rsi_oversold: 25
+    rsi_overbought: 75
+    stoch_oversold: 20
+    stoch_overbought: 80
+    cci_period: 14
+    cci_oversold: -150
+    cci_overbought: 150
+    min_agreement: 2
+  xgboost:
+    n_estimators: 300
+    max_depth: 5
+    learning_rate: 0.05
+    min_signal_confidence: 0.60
+  entry:
+    sr_proximity_atr: 0.5
+    limit_order_expiry_candles: 6
+    no_market_fallback: true
+
+breakout:
+  compression:
+    bb_width_ratio_threshold: 0.70
+    atr_ratio_threshold: 0.80
+    range_atr_ratio_threshold: 1.50
+    min_compression_candles: 8
+  break_confirmation:
+    min_break_distance_atr: 0.30
+    volume_ratio_threshold: 1.50
+  xgboost:
+    n_estimators: 300
+    max_depth: 5
+    learning_rate: 0.05
+    min_signal_confidence: 0.70
+  entry:
+    order_type: stop_limit
+    max_slippage_atr: 0.30
+    limit_order_expiry_candles: 2
+
+hold_time_limits:
+  momentum_M15:       12
+  mean_reversion_M15: 20
+  breakout_M15:       8
+  momentum_H1:        12
+  mean_reversion_H1:  20
+  breakout_H1:        8

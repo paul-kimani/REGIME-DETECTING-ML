@@ -1,0 +1,47 @@
+mode: false                          # set true when on prop firm
+
+ftmo:
+  max_daily_loss:     0.05
+  max_total_drawdown: 0.10
+  profit_target:      0.10
+  min_trading_days:   4
+
+internal_buffers:
+  daily_loss_buffer: 0.04           # halt at 4%, not 5%
+  total_dd_buffer:   0.08           # halt at 8%, not 10%
+
+circuit_breakers:
+  level_1:
+    daily_loss_trigger:        0.015
+    consecutive_losses_trigger: 3
+    action: reduce_size_30pct
+
+  level_2:
+    daily_loss_trigger:        0.025
+    consecutive_losses_trigger: 5
+    action: halt_session
+
+  level_3:
+    daily_loss_trigger:  0.040
+    weekly_loss_trigger: 0.060
+    peak_drawdown_trigger: 0.080
+    action: halt_all_manual_review
+
+  level_4:
+    action: emergency_close_all
+    triggers:
+      - global_crisis_state
+      - spread_multiplier_exceeded_3x
+      - mt5_connection_unstable
+
+recovery_sizing:
+  day_1_multiplier:     0.50
+  day_2_multiplier:     0.75
+  day_3_plus_multiplier: 1.00
+
+news_filter:
+  enabled: true
+  block_before_minutes: 2
+  block_after_minutes:  5
+  high_impact_events: [NFP, FOMC, CPI, GDP]
+  high_impact_block_minutes: 15

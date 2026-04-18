@@ -1,0 +1,107 @@
+# ============================================================
+# Trading System — Python dependencies
+# Install from the project root (where this file lives):
+#   pip install -r requirements.txt
+#
+# Windows-specific notes
+# ----------------------
+# MetaTrader5 only installs on Windows with Python 3.11 64-bit.
+# TA-Lib requires a pre-built wheel on Windows — download from:
+#   https://github.com/cgohlke/talib-binary/releases
+# then install manually before running pip install:
+#   pip install TA_Lib‑0.4.32‑cp311‑cp311‑win_amd64.whl
+# If you skip TA-Lib, pandas-ta (pure Python) is used as fallback.
+#
+# Mac notes
+# ---------
+# MetaTrader5 will fail to install on Mac — that is expected.
+# The codebase guards the import; tests run fine on Mac via mock.
+# Install TA-Lib on Mac with: brew install ta-lib
+# ============================================================
+
+# -----------------------------------------------------------
+# MetaTrader 5 (Windows only — gracefully ignored on Mac)
+# -----------------------------------------------------------
+MetaTrader5==5.0.45
+
+# -----------------------------------------------------------
+# Core data science
+# -----------------------------------------------------------
+pandas==2.2.2
+polars==0.20.31
+numpy==1.26.4
+scipy==1.13.1
+statsmodels==0.14.2
+scikit-learn==1.5.0
+
+# -----------------------------------------------------------
+# ML models
+# -----------------------------------------------------------
+xgboost==2.0.3
+lightgbm==4.3.0
+torch==2.3.1
+hmmlearn==0.3.2
+optuna==3.6.1
+
+# -----------------------------------------------------------
+# Technical analysis
+# -----------------------------------------------------------
+# TA-Lib: on Windows install the .whl first (see header note).
+# On Mac: brew install ta-lib  then  pip install TA-Lib
+TA-Lib==0.4.32
+pandas-ta==0.3.14b0
+
+# -----------------------------------------------------------
+# Backtesting & quant
+# -----------------------------------------------------------
+vectorbt==0.26.2
+quantstats==0.0.62
+
+# -----------------------------------------------------------
+# Database
+# -----------------------------------------------------------
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.30
+alembic==1.13.1
+
+# -----------------------------------------------------------
+# Cache / messaging
+# -----------------------------------------------------------
+redis==5.0.6
+
+# -----------------------------------------------------------
+# MLflow experiment tracking
+# -----------------------------------------------------------
+mlflow==2.13.2
+
+# -----------------------------------------------------------
+# Config / env
+# -----------------------------------------------------------
+pydantic==2.7.1
+python-dotenv==1.0.1
+pyyaml==6.0.1
+
+# -----------------------------------------------------------
+# Scheduling
+# -----------------------------------------------------------
+schedule==1.2.2
+APScheduler==3.10.4
+
+# -----------------------------------------------------------
+# Monitoring export
+# -----------------------------------------------------------
+grafana-api==1.0.3
+
+# -----------------------------------------------------------
+# Testing
+# -----------------------------------------------------------
+pytest==8.2.2
+pytest-cov==5.0.0
+pytest-asyncio==0.23.7
+pytest-mock==3.14.0
+
+# -----------------------------------------------------------
+# Utilities
+# -----------------------------------------------------------
+requests==2.32.3
+tenacity==8.3.0

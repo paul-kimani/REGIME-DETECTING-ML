@@ -1,0 +1,38 @@
+sizing:
+  base_risk_per_trade: 0.010      # 1% base risk
+  max_risk_per_trade: 0.015       # 1.5% hard cap
+  min_risk_per_trade: 0.002       # 0.2% minimum
+  kelly_fraction: 0.5             # half Kelly
+  kelly_min_confidence: 0.55      # below this, no Kelly sizing
+
+volatility_scalars:
+  high_vol_threshold: 1.5         # ATR ratio above this = high vol
+  high_vol_scalar: 0.70
+  elevated_vol_threshold: 1.2
+  elevated_vol_scalar: 0.85
+  compressed_vol_threshold: 0.70
+  compressed_vol_scalar: 0.90
+
+portfolio:
+  max_total_heat: 0.05            # 5% total open risk
+  max_long_exposure: 0.035        # 3.5%
+  max_short_exposure: 0.035
+  max_metals_combined: 0.025
+  max_indices_combined: 0.025
+  max_forex_combined: 0.030
+  correlation_cap_threshold: 0.70 # reduce size if corr above this
+  correlation_size_reduction: 0.50
+
+rr_minimums:
+  momentum: 2.0
+  mean_reversion: 1.5
+  breakout: 2.5
+
+stop_limits:
+  max_stop_atr_multiple: 2.0
+
+regime_age_multipliers:
+  young:         {max_candles: 20,   multiplier: 1.00}
+  mature:        {max_candles: 50,   multiplier: 0.85}
+  extended:      {max_candles: 100,  multiplier: 0.70}
+  very_extended: {max_candles: 9999, multiplier: 0.50}

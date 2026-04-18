@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: trading_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-trading}
+      POSTGRES_USER: ${DB_USER:-trading_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change_me}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-trading_user} -d ${DB_NAME:-trading}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: trading_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.13.2
+    container_name: trading_mlflow
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      MLFLOW_BACKEND_STORE_URI: postgresql://${DB_USER:-trading_user}:${DB_PASSWORD:-change_me}@postgres:5432/${DB_NAME:-trading}
+      MLFLOW_DEFAULT_ARTIFACT_ROOT: /mlruns
+    volumes:
+      - mlruns:/mlruns
+    command: >
+      mlflow server
+        --backend-store-uri postgresql://${DB_USER:-trading_user}:${DB_PASSWORD:-change_me}@postgres:5432/${DB_NAME:-trading}
+        --default-artifact-root /mlruns
+        --host 0.0.0.0
+        --port 5000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  grafana:
+    image: grafana/grafana:10.4.3
+    container_name: trading_grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_data:
+  mlruns:
+  grafana_data:

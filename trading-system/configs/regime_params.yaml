@@ -1,0 +1,60 @@
+states:
+  trend_up:   0
+  trend_down: 1
+  range:      2
+  volatile:   3
+  safe_haven: 4      # Gold-specific only
+
+hmm:
+  covariance_type: full
+  n_iter: 200
+  random_state: 42
+  min_training_bars: 5000
+
+persistence:
+  probability_threshold_base: 0.65
+  thresholds_by_current_regime:
+    trend_up:
+      to_range:      0.70
+      to_volatile:   0.60
+      to_trend_down: 0.65
+    trend_down:
+      to_range:      0.70
+      to_volatile:   0.60
+      to_trend_up:   0.65
+    range:
+      to_trend_up:   0.60
+      to_trend_down: 0.60
+      to_volatile:   0.55
+    volatile:
+      to_any:        0.75
+
+  candle_confirmation:
+    volatile_to_any:  1
+    range_to_trend:   3
+    trend_to_range:   4
+    trend_to_trend:   2
+
+  dynamic_n_adjustment:
+    high_atr_ratio_threshold: 1.4
+    high_atr_n_reduction:     1
+    low_atr_ratio_threshold:  0.8
+    low_atr_n_increase:       1
+
+mtf:
+  weights:
+    H4:  0.50
+    H1:  0.30
+    M15: 0.20
+  full_alignment_threshold:    0.85
+  partial_alignment_threshold: 0.60
+
+universal_model:
+  risk_on_threshold:  0.65
+  risk_off_threshold: 0.40
+  crisis_threshold:   0.20
+  multipliers:
+    risk_on:  1.0
+    neutral:  0.7
+    risk_off: 0.3
+    crisis:   0.0

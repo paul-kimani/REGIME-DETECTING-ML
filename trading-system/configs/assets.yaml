@@ -1,0 +1,77 @@
+assets:
+  - symbol: XAUUSD
+    type: metal
+    pip_size: 0.01
+    lot_step: 0.01
+    min_lot: 0.01
+    max_lot: 50.0
+    typical_spread: 0.30
+    session_filter: [london, newyork, overlap]
+    hmm_states: 5        # Gold gets extra Safe Haven state
+    asset_specific:
+      track_dxy_corr: true
+      track_silver_ratio: true
+      track_real_yields: true
+
+  - symbol: XAGUSD
+    type: metal
+    pip_size: 0.001
+    lot_step: 0.01
+    min_lot: 0.01
+    max_lot: 50.0
+    typical_spread: 0.03
+    session_filter: [london, newyork, overlap]
+    hmm_states: 4
+
+  - symbol: EURUSD
+    type: forex
+    pip_size: 0.0001
+    lot_step: 0.01
+    min_lot: 0.01
+    max_lot: 100.0
+    typical_spread: 0.00010
+    session_filter: [london, newyork, overlap]
+    hmm_states: 4
+
+  - symbol: GBPUSD
+    type: forex
+    pip_size: 0.0001
+    lot_step: 0.01
+    min_lot: 0.01
+    max_lot: 100.0
+    typical_spread: 0.00013
+    session_filter: [london, newyork, overlap]
+    hmm_states: 4
+
+  - symbol: USDJPY
+    type: forex
+    pip_size: 0.01
+    lot_step: 0.01
+    min_lot: 0.01
+    max_lot: 100.0
+    typical_spread: 0.010
+    session_filter: [london, newyork, overlap, asian]
+    hmm_states: 4
+
+  - symbol: US30
+    type: index
+    pip_size: 1.0
+    lot_step: 0.01
+    min_lot: 0.01
+    max_lot: 10.0
+    typical_spread: 2.0
+    session_filter: [newyork]
+    hmm_states: 4
+
+  - symbol: NAS100
+    type: index
+    pip_size: 0.25
+    lot_step: 0.01
+    min_lot: 0.01
+    max_lot: 10.0
+    typical_spread: 1.5
+    session_filter: [newyork]
+    hmm_states: 4
+
+timeframes: [M15, H1, H4]
+primary_timeframe: M15
