@@ -27,6 +27,18 @@ _TF_MINUTES: dict[str, int] = {
     "D1": 1440,
 }
 
+# Timeframe string → MT5Connector integer constant
+# These must be integers; MT5Connector.copy_rates_* expects int, not string.
+_TF_TO_MT5: dict[str, int] = {
+    "M1":  MT5Client.TIMEFRAME_M1,
+    "M5":  MT5Client.TIMEFRAME_M5,
+    "M15": MT5Client.TIMEFRAME_M15,
+    "M30": MT5Client.TIMEFRAME_M30,
+    "H1":  MT5Client.TIMEFRAME_H1,
+    "H4":  MT5Client.TIMEFRAME_H4,
+    "D1":  MT5Client.TIMEFRAME_D1,
+}
+
 _DEFAULT_TIMEFRAMES = ["M15", "H1", "H4"]
 _PAGE_SIZE = 2000          # bars per copy_rates_range page
 _POLL_INTERVAL = 15        # seconds between polling ticks in on_new_candle
@@ -109,7 +121,8 @@ class DataPipeline:
                 page_bars,
             )
 
-            rates = self._mt5.copy_rates_range(symbol, timeframe, page_start, page_end)
+            tf_const = _TF_TO_MT5.get(timeframe, MT5Client.TIMEFRAME_M15)
+            rates = self._mt5.copy_rates_range(symbol, tf_const, page_start, page_end)
             if not rates:
                 logger.debug(
                     "fetch_historical: no data returned for page %s — %s, stopping",
@@ -206,7 +219,8 @@ class DataPipeline:
         """
         logger.debug("fetch_latest: %s/%s count=%d", symbol, timeframe, count)
 
-        rates = self._mt5.copy_rates_from_pos(symbol, timeframe, 0, count)
+        tf_const = _TF_TO_MT5.get(timeframe, MT5Client.TIMEFRAME_M15)
+        rates = self._mt5.copy_rates_from_pos(symbol, tf_const, 0, count)
         if not rates:
             logger.warning("fetch_latest: no data for %s/%s", symbol, timeframe)
             return pd.DataFrame(

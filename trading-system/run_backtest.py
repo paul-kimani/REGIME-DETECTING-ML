@@ -151,16 +151,19 @@ def _load_data(
 
             for tf in missing:
                 try:
-                    count = min(tf_bars.get(tf, 500), 50_000)
-                    df = pipeline.fetch_historical(symbol, tf, count=count)
+                    bars = min(tf_bars.get(tf, 500), 50_000)
+                    df = pipeline.fetch_historical(
+                        symbol, tf,
+                        start_date=start,
+                        bars=bars,
+                        store_to_db=False,   # DB may be unavailable
+                    )
                     if df is not None and len(df) > 0:
-                        if hasattr(df.index, "tz") and df.index.tz is not None:
-                            mask = (df.index >= start) & (df.index <= end)
-                        else:
-                            s_naive = start.replace(tzinfo=None)
-                            e_naive = end.replace(tzinfo=None)
-                            mask = (df.index >= s_naive) & (df.index <= e_naive)
-                        df = df[mask]
+                        # fetch_historical returns a DataFrame with a 'timestamp'
+                        # column (not index) — filter by that column
+                        if "timestamp" in df.columns:
+                            mask = (df["timestamp"] >= start) & (df["timestamp"] <= end)
+                            df = df[mask].reset_index(drop=True)
                         if len(df) > 0:
                             data[tf] = df
                             log.info("Loaded %d bars from MT5: %s %s", len(df), symbol, tf)
