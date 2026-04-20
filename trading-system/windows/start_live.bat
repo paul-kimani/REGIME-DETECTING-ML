@@ -1,9 +1,3 @@
 @echo off
-title Live Trading
-echo ============================================
-echo  Starting Live Trading System ...
-echo  Make sure the MT5 bridge is running first.
-echo ============================================
-cd /d "%~dp0.."
-python mac\run_live.py
+echo DEPRECATED: Use "python run_live.py" from the project root instead.
 pause

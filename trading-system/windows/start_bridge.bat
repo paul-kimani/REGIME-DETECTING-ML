@@ -1,8 +1,6 @@
 @echo off
-title MT5 Bridge
-echo ============================================
-echo  Starting MT5 Bridge on port 8000 ...
-echo ============================================
-cd /d "%~dp0.."
-python windows\mt5_bridge.py
+echo DEPRECATED: The MT5 bridge has been removed.
+echo MetaTrader5 now connects directly via core\execution\mt5_connector.py
+echo.
+echo Use start.bat in the project root instead.
 pause
