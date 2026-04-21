@@ -379,6 +379,8 @@ class MT5Connector:
         """
         if not _MT5_AVAILABLE:
             raise MT5ConnectionError("MetaTrader5 not available")
+        # Ensure the symbol is subscribed so MT5 serves full history.
+        _mt5_lib.symbol_select(symbol, True)
         rates = self._retry(
             _mt5_lib.copy_rates_from_pos, symbol, timeframe, start_pos, count
         )
@@ -407,6 +409,8 @@ class MT5Connector:
         """
         if not _MT5_AVAILABLE:
             raise MT5ConnectionError("MetaTrader5 not available")
+        # Ensure the symbol is subscribed so MT5 serves full history.
+        _mt5_lib.symbol_select(symbol, True)
         rates = self._retry(
             _mt5_lib.copy_rates_range, symbol, timeframe, date_from, date_to
         )

@@ -152,36 +152,24 @@ def _load_data(
             for tf in missing:
                 try:
                     bars = min(tf_bars.get(tf, 500), 50_000)
-
-                    # fetch_latest uses copy_rates_from_pos — reliable even when
-                    # the MT5 chart has never been opened for this timeframe.
-                    # fetch_historical uses copy_rates_range which requires the
-                    # terminal to have the data pre-loaded (chart must be open).
-                    df = pipeline.fetch_latest(symbol, tf, count=bars)
-
+                    df = pipeline.fetch_historical(
+                        symbol, tf,
+                        start_date=start,
+                        bars=bars,
+                        store_to_db=False,
+                    )
                     if df is not None and len(df) > 0:
-                        # Filter to the requested date range
                         if "timestamp" in df.columns:
                             ts = df["timestamp"]
-                            # handle both tz-aware and tz-naive
-                            if hasattr(ts.dtype, "tz") and ts.dt.tz is not None:
-                                s = start
-                                e = end
+                            if ts.dt.tz is not None:
+                                s, e = start, end
                             else:
                                 s = start.replace(tzinfo=None)
                                 e = end.replace(tzinfo=None)
-                            mask = (ts >= s) & (ts <= e)
-                            df = df[mask].reset_index(drop=True)
-
+                            df = df[(ts >= s) & (ts <= e)].reset_index(drop=True)
                         if len(df) > 0:
                             data[tf] = df
                             log.info("Loaded %d bars from MT5: %s %s", len(df), symbol, tf)
-                        else:
-                            log.warning(
-                                "MT5 returned data for %s %s but none in range %s→%s "
-                                "(broker may not keep history that far back — try a more recent start date)",
-                                symbol, tf, start.date(), end.date(),
-                            )
                 except Exception as fetch_exc:
                     log.warning("MT5 fetch failed %s %s: %s", symbol, tf, fetch_exc)
 

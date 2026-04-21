@@ -122,7 +122,22 @@ class DataPipeline:
             )
 
             tf_const = _TF_TO_MT5.get(timeframe, MT5Client.TIMEFRAME_M15)
-            rates = self._mt5.copy_rates_range(symbol, tf_const, page_start, page_end)
+
+            # MT5 may return only 1 bar on the first call while it syncs history
+            # from the broker server.  Retry up to 3 times with a short delay.
+            rates = []
+            for sync_attempt in range(3):
+                rates = self._mt5.copy_rates_range(symbol, tf_const, page_start, page_end)
+                if rates and len(rates) > 1:
+                    break
+                if sync_attempt < 2:
+                    logger.debug(
+                        "fetch_historical: MT5 returned %d bars (sync in progress), "
+                        "retrying in 3 s …",
+                        len(rates) if rates else 0,
+                    )
+                    time.sleep(3)
+
             if not rates:
                 logger.debug(
                     "fetch_historical: no data returned for page %s — %s, stopping",
